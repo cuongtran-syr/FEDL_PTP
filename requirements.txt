@@ -1,0 +1,6 @@
+numpy=1.23.5
+sklearn=1.2.0
+pandas=1.5.3
+xgboost=1.7.1
+torch=2.0.0
+flwr=1.4.0
