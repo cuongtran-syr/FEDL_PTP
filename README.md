@@ -51,34 +51,15 @@ Both training and inference were run on CPU.
 
 # Run training
 
-To run training from the command line: `python src/run_training.py`
+To run training from the command line: `python src/train.py`
 
-```
-$ python src/run_training.py --help
-Usage: run_training.py [OPTIONS]
-
-Options:
-  --airport_name                  airport name
-  --lr                            learning rate, default = 2.5
-  
-```
-
-By default, trained model weights will be saved to `models/v5_model_{airport_name}_{learning_rate}.json`. 
+By default, trained model weights will be saved to `models/federated_weights.npz`. 
 
 
 # Run prediction
 
-To run inference from the command line: `python src/run_submission.py`
+To run inference from the command line: `python src/predict.py`
 
-```
-$ python src/run_inference.py --help
-Usage: run_inference.py [OPTIONS]
-
-Options:
-  --airport_name                  airport name
-  --lr                            learning rate, default = 2.5
-```
-
-By default, predictions will be saved out to `data/processed/submission_{airport_name}_{learning_rate}.csv`.
+By default, predictions will be saved out to `data/processed/submission.csv`.
 
 --------
