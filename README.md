@@ -42,13 +42,12 @@ example_submission
 # Hardware
 
 The solution was run on macOS Ventura, version 13.31 with Apple M1 Pro Processor. 
-- Number of CPUs: 4
-- Processor: 2 GHz Quad-Core Intel Core i5
+- Number of CPUs: 10
 - Memory: 32 GB
 
 Both training and inference were run on CPU.
 - Training time: ~ 1.5 hours. Note that we need to use 2% of the whole labeled data for training. Using the whole data can crash the memory.  
-- Inference time: ~3 minutes for one  aiport. Total time is 30 minutes.
+- Inference time: ~30 minutes for  full data of one  aiport. .
 
 # Run training
 
