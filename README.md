@@ -33,6 +33,7 @@ example_submission
 │   ├── train.py
 │   └── features.py
     └── utils.py
+    └── network.py
     
 ├── README.md          <- The top-level README for developers using this project.
 ├── requirements.txt   <- The requirements file for reproducing the analysis environment
