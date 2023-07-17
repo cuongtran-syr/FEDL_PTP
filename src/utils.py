@@ -2,13 +2,14 @@ from features import *
 import torch
 from collections import OrderedDict
 
-PUBLIC_DATA_PATH = "/Users/cuontr/Documents/pushback/data_v2/{}/public/{}/{}_{}.csv.bz2"#"/Users/cuontr/Documents/pushback/data/{}/{}/"
-LABEL_PATH = "/Users/cuontr/Documents/pushback/data_v2/{}/phase2_train_labels_{}.csv"#"/Users/cuontr/Documents/pushback/data/{}/"
-PRIVATE_DATA_PATH = "/Users/cuontr/Documents/pushback/data_v2/{}/private/{}/{}_{}_mfs.csv.bz2"
+PUBLIC_DATA_PATH = "./data/{}/public/{}/{}_{}.csv.bz2"
+LABEL_PATH = "./data/{}/phase2_train_labels_{}.csv"
+PRIVATE_DATA_PATH = "./data/{}/private/{}/{}_{}_mfs.csv.bz2"
 
 AIRPORTS = ['KATL', 'KCLT', 'KDEN', 'KDFW', 'KJFK', 'KMEM', 'KMIA', 'KORD', 'KPHX', 'KSEA']
 AIRLINES = ['AAL', 'AJT', 'ASA', 'ASH', 'AWI', 'DAL', 'EDV', 'EJA', 'ENY', 'FDX', 'FFT', 'GJS',\
             'GTI', 'JBU', 'JIA', 'NKS', 'PDT', 'QXE', 'RPA', 'SKW', 'SWA', 'SWQ', 'TPA', 'UAL', 'UPS']
+
 def load_public_airport_features(label_pd, airport_name):
     """Loads the public features for a set of flights from one airport.
     There are 5 categories of  public features which are:
@@ -18,12 +19,7 @@ def load_public_airport_features(label_pd, airport_name):
     4. The number of flight winthin 1 hour before the time of making prediction
     5. Name of the airport
     """
-    # label_pd = pd.read_csv(LABEL_PATH.format(airport_name, airport_name),
-    #                        parse_dates=["timestamp"])
-    # # extract the airline name
-    # label_pd["airline_name"] = label_pd["gufi"].str[:3]
-    # # We only need to extract labels for airlines among the list
-    # label_pd = label_pd[label_pd['airline_name'].isin(AIRLINES)]
+   
     total_features = []
     etd_file_name = PUBLIC_DATA_PATH.format(airport_name, airport_name, airport_name, 'etd')
     etd = pd.read_csv(etd_file_name, parse_dates=["departure_runway_estimated_time", "timestamp"])
@@ -45,6 +41,7 @@ def load_public_airport_features(label_pd, airport_name):
     label_pd, features = get_num_dep_flights(label_pd, runways)
     total_features += features
 
+    # We also add airport location as an additional cateogrical feature here 
     for name in AIRPORTS:
         if name == airport_name:
             label_pd['airport_is_{}'.format(name)] =1
@@ -64,6 +61,11 @@ def load_private_airport_airline_features(label_pd, airport_name, airline):
 
 
 def extract_all_airlines_data():
+	"""
+	Extract all labeled data for each airline 
+	The data for each airline is aggregated over 10 airports.
+	
+	"""
     public_pd_list = []
     label_dict = {}
     for airport_name in AIRPORTS:

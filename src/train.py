@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, TensorDataset
 data_dict = extract_all_airlines_data()
 available_airlines = [val for val in data_dict.keys() if val!='all_features']
 train_test_data_dict = {}
-SAMPLE_FRAC = 0.02
+SAMPLE_FRAC = 0.02 # we downsampling to 2%
 
 for airline in available_airlines:
     pd00 = data_dict[airline].sample(frac =SAMPLE_FRAC)
@@ -51,17 +51,9 @@ class FlowerNumPyClient(fl.client.NumPyClient):
 
 
 def numpyclient_fn(airline):
-    pd00 = data_dict[airline].sample(frac =0.01)
-    features = data_dict['all_features']
-    x_train, x_test, y_train, y_test = train_test_split(pd00[features].values, pd00['minutes_until_pushback'].values,
-                                                        test_size=0.5)
-    print(airline, x_train.shape)
-    train_tensor = TensorDataset(torch.Tensor(x_train), torch.Tensor(y_train).reshape(-1,1))
-    train_loader = DataLoader(dataset=train_tensor, batch_size=32, shuffle=True)
-    num_samples = len(x_train)
-
+    train_loader, x_test, y_test, num_samples, features = train_test_data_dict[airline]
     net = MLP(len(features), 4)
-
+    
     return FlowerNumPyClient(airline, net, train_loader, x_test, y_test, num_samples)
 
 class SaveModelStrategy(fl.server.strategy.FedAvg):
@@ -75,7 +67,7 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
                 aggregated_parameters
             )
 
-            np.savez("federated_weights.npz", *aggregated_ndarrays)
+            np.savez("./models/federated_weights.npz", *aggregated_ndarrays)
 
         return aggregated_parameters, aggregated_metrics
 
@@ -97,7 +89,7 @@ if __name__ == "__main__":
     fl.simulation.start_simulation(
         client_fn=numpyclient_fn,
         client_resources=client_resources,
-        clients_ids=AIRLINES,
+        clients_ids=available_airlines,
         strategy=strategy,
         config=fl.server.ServerConfig(num_rounds=5),
         ray_init_args={"include_dashboard": False},
