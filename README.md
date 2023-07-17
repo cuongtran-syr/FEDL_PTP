@@ -6,6 +6,10 @@ Username: cuongk14
 
 The solution is based on training collaboratively a single neural network regressor over a set of clients where each client is associated with one airline. On each round, each client will update its own parameters by stochastic gradient descent (SGD) and then send the model updates to the serve. The server aggregates the model updates and send the aggregated data to each client.
 
+### 1. Base neural network regressor
+ We implement a neural network with one single hidden layer. We tried to increase the depth of network but did not see significant improvement. On each round we train the network in 40 epochs, with learning rate 5* 1e-4, the batch-size is 32.
+ 
+
 # Setup
 
 1. Create an environment using Python 3.8. The solution was originally run on Python 3.8.12. 
