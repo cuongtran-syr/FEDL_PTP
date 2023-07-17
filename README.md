@@ -32,7 +32,7 @@ The structure of the directory before running training or inference should be:
 example_submission
 ├── data
 │   ├── processed      <- submission result folder.
-│   └── raw            <- The original, immutable data dump.
+│   └── {airport_name}  <- The original data for each dairport.
 ├── models             <- Trained models
 ├── src                <- Source code for use in this project.
 │   ├── __init__.py    <- Makes src a Python module
