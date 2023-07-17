@@ -1,10 +1,10 @@
-# Solution - Predict Pushback Time Challenge (by Cuong_Syr team)
+# Solution of Phase 2: Federated learning to  predict pushback time Challenge (by Cuong_Syr team)
 
 Username: cuongk14
 
 ## Summary
 
-The solution is based on constructing an XGBoost regressor model for each airport separately. In total, we have 10 XGBoost models. We perform feature engineering based on all tables to extract informative features. The features combined with the groundtruth label  in training data is used to learn the XGBoost model. 
+The solution is based on training collaboratively a single neural network regressor over a set of clients where each client is associated with one airline. On each round, each client will update its own parameters by stochastic gradient descent (SGD) and then send the model updates to the serve. The server aggregates the model updates and send the aggregated data to each client.
 
 # Setup
 
